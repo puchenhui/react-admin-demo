@@ -2,7 +2,7 @@ import {React,Component} from 'react'
 import { Switch,Route,Redirect } from 'react-router-dom'
 import { adminRouters } from './routes'
 import Frame from './components/frame'
-import './App.css'
+import './App.less'
 
 class App extends Component {
   constructor(props) {
