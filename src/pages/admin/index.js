@@ -50,7 +50,6 @@ const columnsMsg = [
 ];
 
 const columns = columnsMsg.map(i => {return {...i,align:'center'}});
-const userLoginMsg = JSON.parse(window.localStorage.getItem('userLoginMsg'))
 
 class MainIndex extends Component {
   constructor(props) {
@@ -64,11 +63,13 @@ class MainIndex extends Component {
 
   componentDidMount() {
     // 判断登录状态
-    if (!window.localStorage.getItem('userLoginMsg')) {
+    const userLoginMsg = window.localStorage.getItem('userLoginMsg');
+    if (!userLoginMsg) {
       message.error('请重新登录')
       this.props.history.push('/login')
       return
     }
+
     this.getLogMsg()
   }
 
@@ -79,6 +80,7 @@ class MainIndex extends Component {
 
   // 请求列表数据
   getLogMsg = (params) => {
+    const userLoginMsg = JSON.parse(window.localStorage.getItem('userLoginMsg'))
     this.setState({loading:true})
     post('log/search',{
       page:1,

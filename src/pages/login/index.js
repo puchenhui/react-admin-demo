@@ -1,10 +1,18 @@
 import React from 'react';
 import { Layout } from 'antd'
 import LoginForm from './loginForm';
+import { withRouter } from 'react-router-dom'
 import { Card } from 'antd';
 
 class Login extends React.Component{
 
+    componentDidMount() {
+        // 判断登录状态 如果登陆直接进首页
+        const userLoginMsg = window.localStorage.getItem('userLoginMsg');
+        if (userLoginMsg) {
+            this.props.history.push('/admin/index')
+        }
+      }
     render(){
         return (
             <Layout 
@@ -25,7 +33,7 @@ class Login extends React.Component{
     }
 }
 
-export default Login;
+export default withRouter(Login);
 
 
 

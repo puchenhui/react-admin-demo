@@ -8,7 +8,7 @@ import './index.css'
 const { SubMenu, Item } = Menu;
 const { Header, Content, Sider, Footer } = Layout;
 const routes = adminRouters.filter(route => route.isShow)
-const userLoginMsg = JSON.parse(window.localStorage.getItem('userLoginMsg'))
+
 
 class MainIndex extends React.Component {
   constructor(props) {
@@ -19,6 +19,7 @@ class MainIndex extends React.Component {
   }
 
   componentDidMount(){
+    const userLoginMsg = JSON.parse(window.localStorage.getItem('userLoginMsg'))
     const loginStatusName = userLoginMsg ? userLoginMsg.name : {}
     this.setState({
       loginStatusName: loginStatusName,
