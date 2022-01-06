@@ -20,7 +20,6 @@ class Index extends Component {
   }
   componentDidMount() {
     this.getTreeData()
-
   }
 
   // 处理接口返回数据
@@ -41,7 +40,7 @@ class Index extends Component {
   }
   //  获取组织树数据
   getTreeData = () => {
-    const userLoginMsg = JSON.parse(window.localStorage.getItem('userLoginMsg'))
+    const userLoginMsg = JSON.parse(window.localStorage.getItem('userLoginMsg')) || {};
     get('getOrganizationTree', {
       userId: userLoginMsg.id,
       departmentId: userLoginMsg.departmentId,

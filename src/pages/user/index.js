@@ -22,7 +22,7 @@ class MainIndex extends Component {
 
   // 请求列表数据
   getLogMsg = (params) => {
-    const userLoginMsg = JSON.parse(window.localStorage.getItem('userLoginMsg'))
+    const userLoginMsg = JSON.parse(window.localStorage.getItem('userLoginMsg')) || {}
     this.setState({loading:true})
     const { departmentId } = this.state;
     get('getUserInfo',{
