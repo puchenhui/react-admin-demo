@@ -3,48 +3,10 @@ import axios from "axios";
 import {message} from 'antd'
 
 const instance = axios.create({
-    baseURL: 'http://47.93.126.193:8088/com/fsopn/ipaas/', //设置公共请求头
+    // baseURL: 'http://47.93.126.193:8088/com/fsopn/ipaas/', //设置公共请求头
+    baseURL: 'http://www.fsopn-ipaas.com:8088/com/fsopn/ipaas/', //设置公共请求头
     timeout: 5000
 })
-
-//response 全局请求拦截器，发送请求之前执行
-// instance.interceptors.request.use(
-//     config => {
-//         const token = sessionStorage.getItem('token')
-//         if (token) { // 判断是否存在token，如果存在的话，则每个http header都加上token
-//             config.headers.authorization = token  //请求头加上token
-//         }
-//         return config
-//     },
-//     err => {
-//         return Promise.reject(err)
-//     }
-// )
-
-// // 请求返回后处理数据
-// instance.interceptors.response.use(
-//     response => {
-//         //拦截响应，做统一处理 
-//         //   if (response.data.code) {
-//         //     switch (response.data.code) {
-//         //       case 1002:
-//         //         store.state.isLogin = false
-//         //         router.replace({
-//         //           path: 'login',
-//         //           query: {
-//         //             redirect: router.currentRoute.fullPath
-//         //           }
-//         //         })
-//         //     }
-//         //   }
-//         return response
-//     },
-//     //接口错误状态处理，也就是说无响应时的处理
-//     error => {
-//         return Promise.reject(error.response.status) // 返回接口返回的错误信息
-//     }
-// )
-
 
 
 instance.interceptors.request.use(
@@ -57,12 +19,41 @@ instance.interceptors.request.use(
 )
 instance.interceptors.response.use(
     response => {
-        // 根据后端约定，response.data形式为{success:boolean, message:string, content:any}
         if (response.status === 200) {
-            return response.data
+            // 400 失败 FAIL("400", "Failure"),
+            // 403 没有权限 NO_PERMISSION("403", "Need Authorities")
+            // 402 未登录 LOGIN_NO("402", "Need Login"),
+            // 401 登陆失败 LOGIN_FAIL("401", "Login Failure"),
+            // 101 回话到期 SESSION_EXPIRES("101", "Session Expires"),
+            // 501 未知错误 UNKNOWN_ERROR("501","Unknown Error");
+
+            switch (response.data.code) {
+                case '200':
+                return response.data.data;
+                case '400':
+                return message.error('接口调取失败');
+                case '403':
+                    
+                return message.error('没有权限');
+                case '402':
+                    
+                return message.error('未登录');
+                case '401':
+                    
+                return message.error('登录失败');
+                case '101':
+                    
+                return message.error('回话到期');
+                case '501':
+                    
+                return message.error('未知错误');
+                default:
+                return message.error('请检查网络');
+            }
+            
         } else {
-            message.error(response.status)
-            Promise.reject(response.status)
+            message.error('请检查网络')
+            // Promise.reject(response.status)
         }
     },
     error => {
@@ -86,7 +77,7 @@ export const get = (url, params, config = {}) => {
             params,
             ...config
         }).then(response => {
-            resolve(response.data)
+            resolve(response)
         }).catch(error => {
             reject(error)
         })
@@ -102,7 +93,7 @@ export const post = (url, data, config = {}) => {
             data,
             ...config
         }).then(response => {
-            resolve(response.data)
+            resolve(response)
         }).catch(error => {
             reject(error)
         })

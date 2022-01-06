@@ -1,0 +1,50 @@
+[
+  {
+      "virtual": 0,
+      "code": "0000100001",
+      "name": "总部",
+      "show": 1,
+      "fullName": "总部",
+      "id": 986436,
+      "type": 1,
+      "parentId": 0,
+      "order": 1,
+      "children": [
+        {
+            "virtual": 0,
+            "code": "000010000100007",
+            "children": [
+                {
+                    "virtual": 1,
+                    "code": "00001000010000704",
+                    "name": "中铁建机关6699",
+                    "show": 0,
+                    "fullName": "机关669988",
+                    "id": 321366,
+                    "type": 1,
+                    "parentId": 286641,
+                    "order": 2
+                }
+            ],
+            "name": "中铁建网络信息科技",
+            "show": 1,
+            "fullName": "中铁建网络信息科技有限1公司",
+            "id": 286641,
+            "type": 1,
+            "parentId": 986436,
+            "order": 19
+        },
+        {
+            "virtual": 0,
+            "code": "000010000100173",
+            "name": "中铁建发展集团",
+            "show": 1,
+            "fullName": "中铁建发展集团",
+            "id": 494874,
+            "type": 1,
+            "parentId": 986436,
+            "order": 350
+        }
+    ],
+  }
+]

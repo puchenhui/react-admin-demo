@@ -1,6 +1,8 @@
-import Admin from "../pages/admin";
-import Login from "../pages/login";
-import Page404 from "../pages/page404";
+import Admin from "@/pages/admin";
+import Login from "@/pages/login";
+import User from "@/pages/user";
+import Page404 from "@/pages/page404";
+
 // import NewList from "../pages/admin/newList/list";
 // import NewEdit from "../pages/admin/newList/edit";
 // import CarList from "../pages/admin/car/list";
@@ -23,9 +25,17 @@ export const adminRouters = [
         component: Admin,
         isShow: true,
         exact: true,
-        title: '首页',
+        title: '操作日志',
         icon: 'area-chart'
     }, 
+    {
+      path: '/admin/user',
+      component: User,
+      isShow: true,
+      exact: true,
+      title: '人员信息',
+      icon: 'user'
+  }, 
     // {
     //     path: '/admin/newList',
     //     component: NewList,
