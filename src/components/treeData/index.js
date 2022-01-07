@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Form, Input, Tree } from 'antd';
+import { Form, Input, message, Tree } from 'antd';
 import { get } from '../../utils/request';
 const TreeNode = Tree.TreeNode;
 const { Search } = Input;
@@ -48,8 +48,15 @@ class Index extends Component {
       .then((res) => {
         if (res) {
           const data = this.eachReplaceKey(res);
+          let firstOrgan = [
+            {
+                title: '总公司',
+                key: 0,
+            }
+          ]
+          firstOrgan[0].children = data
           this.setState({
-            treeDataMsg: data
+            treeDataMsg: firstOrgan
           }, () => {
             const msg = this.expandedKeysFun(this.state.treeDataMsg); //展开key
             const cp = JSON.stringify(this.state.treeDataMsg); //深拷贝
@@ -93,12 +100,13 @@ class Index extends Component {
     return newChildren;
   }
 
-  filterFn = (data, filterText) => { //过滤函数
+   //过滤函数
+  filterFn = (data, filterText) => {
     if (!filterText) {
       return true;
     }
     return (
-      new RegExp(filterText, "i").test(data.title) //我是一title过滤 ，你可以根据自己需求改动
+      new RegExp(filterText, "i").test(data.title) //这个是title过滤 ，也可以根据需求改动
     );
   }
   //展开 key函数
@@ -184,11 +192,10 @@ class Index extends Component {
   };
 
   // 点击树节点触发
-  onSelectChange = (selectedKeys, info) => {
-    // info.node.props.dataRef为选中树节点里的所有数据
-    this.props.getUserDataFun(selectedKeys)
-    // console.log(info.node.props.dataRef);
-    // console.log('id:' + selectedKeys[0]);
+  onSelectChange = (selectedKeys) => {
+    if (selectedKeys[0] !== '0') {
+      this.props.getUserDataFun(selectedKeys)
+    }
   }
   render() {
     const { expandedKeys, treeData, autoExpandParent } = this.state;
