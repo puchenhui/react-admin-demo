@@ -3,8 +3,7 @@ import { Form, Input, message, Tree } from 'antd';
 import { get } from '../../utils/request';
 const TreeNode = Tree.TreeNode;
 const { Search } = Input;
-// const treeDataMsg  = [];
-class Index extends Component {
+class TreeData extends Component {
   formRef = React.createRef();
   constructor(props) {
     super(props);
@@ -221,4 +220,4 @@ class Index extends Component {
   }
 
 }
-export default Index
+export default TreeData

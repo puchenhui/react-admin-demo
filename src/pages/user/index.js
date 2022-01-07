@@ -6,6 +6,8 @@ import { withRouter } from 'react-router-dom'
 import { get, post } from '@/utils/request';
 import DreeData from '@/components/treeData';
 import { downloadFile } from '@/utils/exportFile';
+import CustomTable from '@/components/customTable';
+
 
 // import './index.less'
 
@@ -132,19 +134,14 @@ class MainIndex extends Component {
               <DreeData getUserDataFun={this.getUserData} />
           </Col>
           <Col span={18}>
-          <Table
+          
+          <CustomTable
             columns={columns}
             dataSource={logData}
-            locale={{ emptyText: '暂无数据' }}
-            bordered
-            rowKey={record => record.id}
             onChange={this.changePage}
             loading={loading}
             title ={this.tableTitle}
-            size="middle"
             pagination={{
-              showSizeChanger:true,
-              defaultCurrent:1,
               current:currentPage,
               total:total,
               showTotal:total => `总共 ${total} 条`,

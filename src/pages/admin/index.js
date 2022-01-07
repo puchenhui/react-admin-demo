@@ -8,6 +8,7 @@ import { get, post } from '@/utils/request';
 import DreeData from '@/components/treeData';
 import './index.less'
 import { downloadFile } from '@/utils/exportFile';
+import CustomTable from '@/components/customTable';
 
 
 const FormItem = Form.Item;
@@ -21,7 +22,7 @@ class MainIndex extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      logData:[],
+      dataSource:[],
       currentPage:1,
       loading: false,
     };
@@ -64,7 +65,7 @@ class MainIndex extends Component {
     })
     .then((res)=>{
       this.setState({
-        logData: res.pageRecode,
+        dataSource: res.pageRecode,
         total: res.total,
         loading:false,
       })
@@ -172,7 +173,7 @@ class MainIndex extends Component {
 
   render() {
     const { form: { getFieldDecorator } } = this.props;
-    const { logData,total,currentPage,loading, } = this.state;
+    const { dataSource, total, currentPage, loading, } = this.state;
     const columnsMsg = [
       {
         title: '序号',
@@ -184,7 +185,7 @@ class MainIndex extends Component {
       {
         title: '操作人',
         dataIndex: 'userName',
-        width:60,
+        width:80,
       },
       {
         title: '操作时间',
@@ -192,15 +193,15 @@ class MainIndex extends Component {
         width:80,
       },
       {
+        title: '操作内容',
+        dataIndex: 'content',
+        width:80,
+      },
+      {
         title: '被授权对象路径',
         dataIndex: 'department',
         width:150,
-      },
-      {
-        title: '操作内容',
-        dataIndex: 'content',
-        width:90,
-      },
+      }
     ];
     const columns = columnsMsg.map(i => {return {...i,align:'center'}});
 
@@ -215,7 +216,7 @@ class MainIndex extends Component {
             <Row >
               <Col className="gutter-row" span={7} style={{ textAlign:'left'}}>
                 <FormItem label="操作人" >
-                  {getFieldDecorator('userName')(<Input placeholder="请输入操作人" autocomplete="off" />)}
+                  {getFieldDecorator('userName')(<Input placeholder="请输入操作人" />)}
                 </FormItem>
               </Col>
               <Col className="gutter-row" span={12} style={{ textAlign:'left'}}>
@@ -239,22 +240,17 @@ class MainIndex extends Component {
               </Col>
             </Row>
           </Form>
-          <Table
+          <CustomTable
             columns={columns}
-            dataSource={logData}
-            locale={{ emptyText: '暂无数据' }}
-            bordered
-            rowKey={record => record.id}
+            dataSource={dataSource}
             onChange={this.changePage}
             loading={loading}
             title ={this.tableTitle}
-            size="middle"
             pagination={{
-              showSizeChanger:true,
-              defaultCurrent:1,
               current:currentPage,
               total:total,
               showTotal:total => `总共 ${total} 条`,
+              
             }}
           />
           </Col>
