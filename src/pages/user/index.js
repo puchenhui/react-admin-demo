@@ -1,10 +1,12 @@
 import { React, Component, Fragment } from 'react'
 import { 
-  message, Table, Form, Select, Input, Row, Col, Button, DatePicker, Card
+  message, Table, Form, Row, Col, Button,
 } from 'antd';
 import { withRouter } from 'react-router-dom'
-import { get, post } from '../../utils/request';
+import { get, post } from '@/utils/request';
 import DreeData from '@/components/treeData';
+import { downloadFile } from '@/utils/exportFile';
+
 // import './index.less'
 
 
@@ -18,6 +20,11 @@ class MainIndex extends Component {
     };
     // 将查询方式传给树结构组件，用于选择组织后查询列表数据
     this.getUserData=this.getUserData.bind(this);
+  }
+
+  // 对返回数据根据order排序
+  dataSortup = (x,y) =>{
+    return x.order-y.order
   }
 
   // 请求列表数据
@@ -35,7 +42,7 @@ class MainIndex extends Component {
     })
     .then((res)=>{
       this.setState({
-        logData: res.pageRecode,
+        logData: res.pageRecode.sort(this.dataSortup),
         total: res.total,
         loading:false,
       })
@@ -49,38 +56,23 @@ class MainIndex extends Component {
   }
   // 切换分页时回调
   changePage = (pagination, filtersArg, sorter) => {
-    const { formValues} = this.state;
     this.pagination = pagination;
     const params = {
       page: pagination.current,
       size: pagination.pageSize,
-      ...formValues,
     };
     this.setState({
       currentPage:pagination.current
     })
     this.getLogMsg(params) 
   };
-
   download = () => {
-    const userLoginMsg = JSON.parse(window.localStorage.getItem('userLoginMsg'))
-    const { formValues } = this.state;
-    return message.error('该功能正在完善，马上就好~~~')
-    
-    post('/getUrl',{
-      userId:userLoginMsg.id,
-      positionId:userLoginMsg.positionId,
-      ...formValues
-    })
-    .then((res)=>{
-      //   window.open(res.url)
-    })
-    // post('/getUrl')
-    // .then((res)=>{
-    //   window.open(res.utl)
-    // })
+    const { departmentId } = this.state;
+    const data = {
+      type:5
+    }
+    downloadFile(data,departmentId,'部门人员信息表')
   }
-
   tableTitle = () => {
     return(
       <Button type="primary"  icon="download" onClick={this.download}>
@@ -149,6 +141,7 @@ class MainIndex extends Component {
             onChange={this.changePage}
             loading={loading}
             title ={this.tableTitle}
+            size="middle"
             pagination={{
               showSizeChanger:true,
               defaultCurrent:1,

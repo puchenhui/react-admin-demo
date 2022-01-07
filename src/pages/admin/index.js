@@ -4,9 +4,10 @@ import {
 } from 'antd';
 import { withRouter } from 'react-router-dom'
 import moment from 'moment';
-import { get, post } from '../../utils/request';
+import { get, post } from '@/utils/request';
 import DreeData from '@/components/treeData';
 import './index.less'
+import { downloadFile } from '@/utils/exportFile';
 
 
 const FormItem = Form.Item;
@@ -46,9 +47,12 @@ class MainIndex extends Component {
   // 请求列表数据
   getLogMsg = (params) => {
     const userLoginMsg = JSON.parse(window.localStorage.getItem('userLoginMsg')) || {};
-    this.setState({loading:true})
     const { departmentId,formValues } = this.state;
 
+    if (!departmentId) {
+      return message.error('请先选择组织')
+    }
+    this.setState({loading:true})
     post('log/search',{
       page:1,
       size:10,
@@ -116,21 +120,37 @@ class MainIndex extends Component {
   };
 
   download = () => {
-    const userLoginMsg = JSON.parse(window.localStorage.getItem('userLoginMsg'))
-    const { formValues } = this.state;
-    return message.error('该功能正在完善，马上就好~~~')
-    post('/getUrl',{
-      userId:userLoginMsg.id,
-      positionId:userLoginMsg.positionId,
-      ...formValues
-    })
-    .then((res)=>{
-      //   window.open(res.url)
-    })
-    // post('/getUrl')
-    // .then((res)=>{
-    //   window.open(res.utl)
-    // })
+    /*
+    * 1：导出所在部门人的全部操作日志  传type= 1 
+    * 2：按操作人名字导出日志 传type= 2  userName 
+    * 3：按操作时间段导出日志 传type= 3 startTime endTime
+    * 4：按操作人操作的时间段导出日志 传type= 4  userName startTime endTime
+    * */
+    const { formValues, departmentId } = this.state;
+    const { userName, startTime, endTime } = formValues || {};
+
+    let data = {}
+    if (!formValues || formValues.length === 0 || userName === undefined  || startTime === undefined) {
+       data.type=1;
+    }
+    if (formValues) {
+      if (userName && startTime === undefined ) {
+        data.type=2;
+        data.userName= userName;
+      }
+      if (startTime && !userName) {
+        data.type=3;
+        data.startTime= startTime;
+        data.endTime= endTime;
+      }
+      if (startTime && userName) {
+        data.type=4;
+        data.userName= userName;
+        data.startTime= startTime;
+        data.endTime= endTime;
+      }
+    }
+    downloadFile(data,departmentId,'操作日志详情表')
   }
   tableTitle = () => {
     return(
@@ -228,6 +248,7 @@ class MainIndex extends Component {
             onChange={this.changePage}
             loading={loading}
             title ={this.tableTitle}
+            size="middle"
             pagination={{
               showSizeChanger:true,
               defaultCurrent:1,

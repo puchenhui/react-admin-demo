@@ -33,76 +33,7 @@ export const adminRouters = [
       component: User,
       isShow: true,
       exact: true,
-      title: '人员信息',
+      title: '组织及人员浏览',
       icon: 'user'
   }, 
-    // {
-    //     path: '/admin/newList',
-    //     component: NewList,
-    //     isShow: true,
-    //     title: '新闻',
-    //     icon: 'shop',
-    // }, 
-    // {
-    //     path: '/admin/car/list',
-    //     component: CarList,
-    //     isShow: true,
-    //     icon: 'shop',
-    //     title: '汽车列表',
-    // }, 
-    // {
-    //     path: '/admin/car/details',
-    //     component: CarDetails,
-    //     isShow: true,
-    //     exact: true,
-    //     title: '汽车详情',
-    //     icon: 'area-chart'
-    // }, 
-    // {
-    //     path: '/admin/newList',
-    //     // component: NewList,
-    //     isShow: true,
-    //     title: '新闻',
-    //     icon: 'shop',
-    //     childrens:[
-    //         {
-    //             path: '/admin/newList/edit/:id?',
-    //             component: NewEdit,
-    //             isShow: false,
-    //             title: '新闻编辑',
-    //         },
-    //         {
-    //             path: '/admin/newList/ed',
-    //             component: ShopList,
-    //             isShow: false,
-    //             title: '新闻列表',
-    //         },
-    //     ]
-    // },
-    // {
-    //     path: '/admin/shop',
-    //     component: ShopIndex,
-    //     isShow: true,
-    //     exact: true,
-    //     title: '商品',
-    //     icon: 'shop',
-    //     childrens:[
-    //         {
-    //             path: '/admin/shop/shopList',
-    //             component: ShopList,
-    //             exact: true,
-    //             isShow: true,
-    //             title: '商品列表',
-    //             icon: 'shop',
-    //         },
-    //         {
-    //             path: '/admin/shop/shopDetails',
-    //             component: ShopDetails,
-    //             exact: true,
-    //             isShow: true,
-    //             title: '商品详情',
-    //             icon: 'shop',
-    //         },
-    //     ]
-    // }, 
 ]
