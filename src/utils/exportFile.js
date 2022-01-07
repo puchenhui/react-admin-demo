@@ -10,7 +10,7 @@ import { post } from "./request";
  */
  const exportFile = (res,name='统计表') => {
   const blob = new Blob([res.data]);
-  const fileName = name + '.xlsx';
+  const fileName = name + (new Date()).valueOf() + '.xlsx';
   const elink = document.createElement('a');
   elink.download = fileName;
   elink.style.display = 'none';
