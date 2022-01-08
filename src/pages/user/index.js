@@ -33,12 +33,20 @@ class MainIndex extends Component {
   getLogMsg = (params) => {
     const userLoginMsg = JSON.parse(window.localStorage.getItem('userLoginMsg')) || {}
     this.setState({loading:true})
-    const { departmentId } = this.state;
+    const { currentTerr } = this.state;
+    const children = currentTerr.children || [];
+    let type;
+    if (currentTerr.type === 2 && children.length === 0) {
+      type = 2;
+    } else {
+      type = 1;
+    }
     get('getUserInfo',{
       page:1,
       size:10,
       userId:userLoginMsg.id,
-      departmentId,
+      departmentId:currentTerr.key,
+      type,
       positionId:userLoginMsg.positionId,
       ...params
     })
@@ -68,13 +76,21 @@ class MainIndex extends Component {
     })
     this.getLogMsg(params) 
   };
+  // 下载文件
   download = () => {
-    const { departmentId } = this.state;
-    const data = {
-      type:5
+    const userLoginMsg = JSON.parse(window.localStorage.getItem('userLoginMsg')) || {}
+    const { currentTerr } = this.state;
+    const children = currentTerr.children || [];
+    let data = {};
+    if (currentTerr.type === 2 && children.length === 0) {
+      data.type = 5;
+    } else {
+      data.type = 6;
+      data.userId = userLoginMsg.id;
     }
-    downloadFile(data,departmentId,'部门人员信息表')
+    downloadFile(data,currentTerr.key,'部门人员信息表')
   }
+  // 导出
   tableTitle = () => {
     return(
       <Button type="primary"  icon="download" onClick={this.download}>
@@ -84,14 +100,12 @@ class MainIndex extends Component {
   }
 
   // 通过点击部门传值并获取员工信息
-  getUserData = (res) => {
-    if (res.length > 0) {
-      this.setState({
-        departmentId:res[0]
-      },()=>{
-        this.getLogMsg()
-      })
-    }
+  getUserData = (currentTerr) => {
+    this.setState({
+      currentTerr:currentTerr,
+    },()=>{
+      this.getLogMsg()
+    })
  }
 
   render() {
@@ -141,6 +155,7 @@ class MainIndex extends Component {
             onChange={this.changePage}
             loading={loading}
             title ={this.tableTitle}
+            rowKey={record => record.keyId}
             pagination={{
               current:currentPage,
               total:total,

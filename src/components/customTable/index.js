@@ -12,9 +12,8 @@ class CustomTable extends React.Component {
   
   render() {
     const { 
-      columns,dataSource,loading,onChange,pagination,title
+      columns,dataSource,loading,onChange,pagination,title,rowKey
     } = this.props;
-    
     return (
       <Table 
         columns={columns}
@@ -24,7 +23,7 @@ class CustomTable extends React.Component {
         title={title}
         locale={{ emptyText: '暂无数据' }}
         bordered
-        rowKey={record => record.id}
+        rowKey={rowKey ? rowKey : record => record.id}
         size="middle"
         rowClassName={(record, index) => {
           let className = 'table-light-row';

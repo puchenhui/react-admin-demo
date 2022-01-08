@@ -164,12 +164,12 @@ class MainIndex extends Component {
 
   // 通过点击部门传值并获取日志列表
   getUserData = (res) => {
-     this.setState({
-      departmentId:res[0]
+    this.setState({
+      departmentId:res.key,
     },()=>{
       this.getLogMsg()
     })
-  }
+ }
 
   render() {
     const { form: { getFieldDecorator } } = this.props;

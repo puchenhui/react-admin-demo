@@ -30,6 +30,8 @@ class TreeData extends Component {
       newData.key = list.id;
       newData.order = list.order;
       newData.parentId = list.parentId;
+      newData.type = list.type;
+      newData.children = list.children;
       if (list.children) {
         newData.children = this.eachReplaceKey(list.children)
       }
@@ -113,7 +115,6 @@ class TreeData extends Component {
     if (e && e.length == 0) {
       return [];
     }
-    //console.log(treeData)
     let arr = [];
     const expandedKeysFn = (e) => {
       e.map((item, index) => {
@@ -173,13 +174,21 @@ class TreeData extends Component {
           <span>{item.title}</span>
         );
       if (item.children && item.children.length > 0) {
-        return <TreeNode key={item.key} title={title} >
+        return <TreeNode 
+                  key={item.key} 
+                  title={title} 
+                  dataRef={item}
+                >
           {
             this.renderTreeNode(item.children)
           }
         </TreeNode>
       }
-      return <TreeNode key={item.key} title={title}  ></TreeNode>
+      return <TreeNode 
+                key={item.key} 
+                title={title}
+                dataRef={item}
+              />
     })
   }
 
@@ -191,9 +200,9 @@ class TreeData extends Component {
   };
 
   // 点击树节点触发
-  onSelectChange = (selectedKeys) => {
+  onSelectChange = (selectedKeys,info) => {
     if (selectedKeys[0] !== '0') {
-      this.props.getUserDataFun(selectedKeys)
+      this.props.getUserDataFun(info.node.props.dataRef)
     }
   }
   render() {
