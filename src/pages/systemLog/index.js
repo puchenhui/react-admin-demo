@@ -1,6 +1,6 @@
 import { React, Component, Fragment } from 'react'
 import { 
-  message, Table, Form, Select, Input, Row, Col, Button, DatePicker, Card
+  message, Table, Form, Input, Row, Col, Button, DatePicker, Card
 } from 'antd';
 import { withRouter } from 'react-router-dom'
 import moment from 'moment';
@@ -12,9 +12,6 @@ import CustomTable from '@/components/customTable';
 
 
 const FormItem = Form.Item;
-const SelectOption = Select.Option;
-const { TextArea } = Input;
-const { Option, OptGroup } = Select;
 const { RangePicker } = DatePicker;
 
 
@@ -31,13 +28,7 @@ class MainIndex extends Component {
   }
 
   componentDidMount() {
-    // 判断登录状态
-    const userLoginMsg = window.localStorage.getItem('userLoginMsg');
-    if (!userLoginMsg) {
-      message.error('请重新登录')
-      this.props.history.push('/login')
-      return
-    }
+   
   }
 
   /**禁止选当前日期之后的时间 */
@@ -156,9 +147,8 @@ class MainIndex extends Component {
   tableTitle = () => {
     return(
       <Button type="primary"  icon="download" onClick={this.download}>
-      导出
-    </Button>
-     
+        导出
+      </Button>
     )
   }
 

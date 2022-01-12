@@ -19,10 +19,16 @@ class MainIndex extends Component {
       logData:[],
       currentPage:1,
       loading: false,
+      currentTree:[]
     };
     // 将查询方式传给树结构组件，用于选择组织后查询列表数据
     this.getUserData=this.getUserData.bind(this);
   }
+
+  componentDidMount() {
+    
+  }
+  
 
   // 对返回数据根据order排序
   dataSortup = (x,y) =>{
@@ -33,10 +39,10 @@ class MainIndex extends Component {
   getLogMsg = (params) => {
     const userLoginMsg = JSON.parse(window.localStorage.getItem('userLoginMsg')) || {}
     this.setState({loading:true})
-    const { currentTerr } = this.state;
-    const children = currentTerr.children || [];
+    const { currentTree } = this.state;
+    const children = currentTree.children || [];
     let type;
-    if (currentTerr.type === 2 && children.length === 0) {
+    if (currentTree.type === 2 && children.length === 0) {
       type = 2;
     } else {
       type = 1;
@@ -45,7 +51,7 @@ class MainIndex extends Component {
       page:1,
       size:10,
       userId:userLoginMsg.id,
-      departmentId:currentTerr.key,
+      departmentId:currentTree.key,
       type,
       positionId:userLoginMsg.positionId,
       ...params
@@ -79,16 +85,16 @@ class MainIndex extends Component {
   // 下载文件
   download = () => {
     const userLoginMsg = JSON.parse(window.localStorage.getItem('userLoginMsg')) || {}
-    const { currentTerr } = this.state;
-    const children = currentTerr.children || [];
+    const { currentTree } = this.state;
+    const children = currentTree.children || [];
     let data = {};
-    if (currentTerr.type === 2 && children.length === 0) {
+    if (currentTree.type === 2 && children.length === 0) {
       data.type = 5;
     } else {
       data.type = 6;
       data.userId = userLoginMsg.id;
     }
-    downloadFile(data,currentTerr.key,'部门人员信息表')
+    downloadFile(data,currentTree.key,'部门人员信息表')
   }
   // 导出
   tableTitle = () => {
@@ -100,9 +106,9 @@ class MainIndex extends Component {
   }
 
   // 通过点击部门传值并获取员工信息
-  getUserData = (currentTerr) => {
+  getUserData = (currentTree) => {
     this.setState({
-      currentTerr:currentTerr,
+      currentTree:currentTree,
     },()=>{
       this.getLogMsg()
     })

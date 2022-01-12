@@ -7,7 +7,6 @@ import './index.css'
 
 const { SubMenu, Item } = Menu;
 const { Header, Content, Sider, Footer } = Layout;
-const routes = adminRouters.filter(route => route.isShow)
 
 
 class MainIndex extends React.Component {
@@ -28,27 +27,33 @@ class MainIndex extends React.Component {
 
  
   // 渲染无父级的菜单
-  renderMenuItem = ({ path, icon, title, }) => {
-    return (
-      <Item key={path}>
-        <Link to={path}>
-          {icon && <Icon type={icon} />}
-          <span>{title}</span>
-        </Link>
-      </Item>
-    )
+  renderMenuItem = ({ path, icon, title, isShow=true }) => {
+    if (isShow === true) {
+      return (
+        <Item key={path}>
+          <Link to={path}>
+            {icon && <Icon type={icon} />}
+            <span>{title}</span>
+          </Link>
+        </Item>
+      )
+    }
   }
   // 渲染带父级的菜单
-  renderSubMenu = ({ path, icon, title, childrens }) => {
-    return (
-      <SubMenu key={path} title={<span>{icon && <Icon type={icon} />}<span>{title}</span></span>}>
-        {
-          childrens && childrens.map(item => {
-            return item.childrens && item.childrens.length > 0 ? this.renderSubMenu(item) : this.renderMenuItem(item)
-          })
-        }
-      </SubMenu>
-    )
+  renderSubMenu = ({ path, icon, title, childrens, isShow=true }) => {;
+    if (isShow === true) {
+      return (
+        <SubMenu key={path} title={<span>{icon && <Icon type={icon} />}<span>{title}</span></span>}>
+          {
+            childrens && childrens.map(item => {
+              return item.childrens && item.childrens.length > 0 
+              ? this.renderSubMenu(item) 
+              : this.renderMenuItem(item)
+            })
+          }
+        </SubMenu>
+      )
+    }
   }
   render() {
     const { loginStatusName } = this.state;
@@ -67,11 +72,11 @@ class MainIndex extends React.Component {
             <Menu
               theme="dark" 
               mode="inline"
-              defaultSelectedKeys={['/admin/index']}
+              defaultSelectedKeys={['/index']}
               selectedKeys={[this.props.location.pathname]}
             >
               {
-                routes && routes.map(item => {
+                adminRouters && adminRouters.map(item => {
                   return item.childrens && item.childrens.length > 0 
                   ? this.renderSubMenu(item) 
                   : this.renderMenuItem(item)

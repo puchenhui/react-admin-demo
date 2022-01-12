@@ -22,9 +22,9 @@ class TreeData extends Component {
   }
 
   // 处理接口返回数据
-  eachReplaceKey = (city) => {
+  eachReplaceKey = (msg) => {
     let item = [];
-    city.map(list => {
+    msg.map(list => {
       let newData = {};
       newData.title = list.name;
       newData.key = list.id;

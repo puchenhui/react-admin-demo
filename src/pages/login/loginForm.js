@@ -31,7 +31,7 @@ class LoginForm extends React.Component {
 
               window.localStorage.setItem('userLoginMsg',JSON.stringify(data));
               message.success('登陆成功')
-              this.props.history.push('/admin/index')
+              this.props.history.push('/index')
             }
 
            

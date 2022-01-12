@@ -10,7 +10,7 @@ class Login extends React.Component{
         // 判断登录状态 如果登陆直接进首页
         const userLoginMsg = window.localStorage.getItem('userLoginMsg');
         if (userLoginMsg) {
-            this.props.history.push('/admin/index')
+            this.props.history.push('/index')
         }
       }
     render(){
