@@ -196,11 +196,12 @@ class MainIndex extends Component {
     if (record.id === data.id) {
 
       const {
-        id, authorizeObjectPositionId, authorizeObjectName, authorizeObjectDepartmentId, authorizeObjectPath, authorizeObjectType,authorizeObjectId
+         id,authorizeObjectPositionId, authorizeObjectName, authorizeObjectDepartmentId, authorizeObjectPath, authorizeObjectType,authorizeObjectId
       } = record;
       const userLoginMsg = JSON.parse(window.localStorage.getItem('userLoginMsg')) || {}
       post('authorize', {
         authorizes: [{
+          id:id,
           operatorId: userLoginMsg.id,
           operatorName: userLoginMsg.name,
           authorizeObjectId,
