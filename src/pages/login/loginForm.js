@@ -33,8 +33,6 @@ class LoginForm extends React.Component {
               message.success('登陆成功')
               this.props.history.push('/index')
             }
-
-           
           })
 
       }
