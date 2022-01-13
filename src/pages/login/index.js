@@ -38,7 +38,7 @@ class Login extends React.Component{
               }
             })
         } else {
-          // window.location.href="https://g1openid.crcc.cn/oauth/authorize?response_type=code&client_id=fsopn&scope=openid+profile&redirect_uri=http://47.93.126.193:8088/com/fsopn/ipaas/sso/callback"
+          window.location.href="https://g1openid.crcc.cn/oauth/authorize?response_type=code&client_id=fsopn&scope=openid+profile&redirect_uri=http://47.93.126.193:8088/com/fsopn/ipaas/sso/callback"
         }
         // 判断登录状态 如果登陆直接进首页
         const userLoginMsg = window.localStorage.getItem('userLoginMsg');
@@ -62,7 +62,7 @@ class Login extends React.Component{
                     <LoginForm />
                 </Card> */}
                
-               <h1 style={{ position:'absolute', left:'50%', top:'50%', fontSize:'15px' }}> 欢迎您进入Hr系统</h1>
+               <h1 style={{ position:'absolute', left:'50%', top:'50%', fontSize:'40px' }}> 欢迎您</h1>
             </Layout>
         )
     }
