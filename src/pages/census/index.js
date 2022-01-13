@@ -1,11 +1,10 @@
 import { React, Component, Fragment } from 'react'
 import {
-  message, Row, Col, Button, Tabs,
+  message, Row, Col,Tabs,
 } from 'antd';
 import { withRouter } from 'react-router-dom'
 import { get, post } from '@/utils/request';
 import DreeData from '@/components/treeData';
-// import { downloadFile } from '@/utils/exportFile';
 import CustomTable from '@/components/customTable';
 
 const { TabPane } = Tabs;
@@ -18,6 +17,7 @@ class Census extends Component {
       currentPage: 1,
       loading: false,
       total:null,
+      currenTab:1,
     };
     // 将查询方式传给树结构组件，用于选择组织后查询列表数据
     this.getUserData = this.getUserData.bind(this);
@@ -28,11 +28,31 @@ class Census extends Component {
     return x.order - y.order
   }
 
+  // 切换标签
+  changeTabs = (key) => {
+    const type = parseInt(key)
+    const { currentTree } = this.state;
+    
+    this.setState({
+      page:1,
+      currentPage:1,
+      logData:[],
+      total:null,
+      currenTab: type,
+    },() =>{
+      if (!currentTree) {
+        return message.error('请先选择组织')
+      }
+      this.getLogMsg()
+    })
+    
+  };
+
   // 请求列表数据
   getLogMsg = (params) => {
     const userLoginMsg = JSON.parse(window.localStorage.getItem('userLoginMsg')) || {}
     this.setState({ loading: true })
-    const { currentTree } = this.state;
+    const { currentTree,currenTab } = this.state;
     const children = currentTree.children || [];
     let type;
     if (currentTree.type === 2 && children.length === 0) {
@@ -40,7 +60,17 @@ class Census extends Component {
     } else {
       type = 1;
     }
-    get('getUserInfo', {
+    let url;
+    if (currenTab === 1) {
+      url = 'jobChange';
+    } 
+    if (currenTab === 2) {
+      url = 'invalidPost';
+    }
+    if (currenTab === 3) {
+      url = 'getUserInfo';
+    }
+    get(url, {
       page: 1,
       size: 10,
       userId: userLoginMsg.id,
@@ -63,7 +93,8 @@ class Census extends Component {
         })
       })
   }
-  // 切换分页时回调
+
+  // 切换表格分页时回调
   changePage = (pagination, filtersArg, sorter) => {
     this.pagination = pagination;
     const params = {
@@ -75,64 +106,35 @@ class Census extends Component {
     })
     this.getLogMsg(params)
   };
-   // 切换标签
-  changeTabs = (key) => {
-    this.setState({
-      page:1,
-      currentPage:1,
-      logData:[],
-      total:null,
-    },() => {
-      // this.getLogMsg()
 
-    })
-  };
-  // 下载文件
-  // download = () => {
-  //   const userLoginMsg = JSON.parse(window.localStorage.getItem('userLoginMsg')) || {}
-  //   const { currentTree } = this.state;
-  //   const children = currentTree.children || [];
-  //   let data = {};
-  //   if (currentTree.type === 2 && children.length === 0) {
-  //     data.type = 5;
-  //   } else {
-  //     data.type = 6;
-  //     data.userId = userLoginMsg.id;
-  //   }
-  //   downloadFile(data,currentTree.key,'部门人员信息表')
-  // }
-  // 导出
-  // tableTitle = () => {
-  //   return(
-  //     <Button type="primary"  icon="download" onClick={this.download}>
-  //       导出
-  //     </Button>
-  //   )
-  // }
-
+  
   // 通过点击部门传值并获取员工信息
   getUserData = (currentTree) => {
+    const { currenTab } = this.state;
     this.setState({
       currentTree: currentTree,
-    }, () => {
+    },() => {
       this.getLogMsg()
     })
+   
+    
   }
   // 标签里的表格
   tableTabs = () => {
-    const { logData, total, currentPage, loading, } = this.state;
+    const { logData, total, currentPage, loading,currenTab } = this.state;
+
     const columnsMsg = [
       {
         title: '序号',
         render: (text, record, index) => {
           return ((currentPage - 1) * 10 + index + 1)
         },
-        width: 10,
+        width: 30,
       },
       {
         title: '姓名',
         dataIndex: 'name',
-        width: 60,
+        width: 30,
       },
       {
         title: '单位',
@@ -142,14 +144,21 @@ class Census extends Component {
       {
         title: '部门',
         dataIndex: 'departmentName',
-        width: 120,
+        width: 30,
       },
       {
         title: '岗位',
         dataIndex: 'positionName',
-        width: 60,
+        width: 30,
       },
     ];
+    if (currenTab === 1) {
+      columnsMsg.push({
+        title: '历史岗位',
+        dataIndex: 'oldPositionName',
+        width: 30,
+      })
+    }
     const columns = columnsMsg.map(i => { return { ...i, align: 'center' } });
     return (
       <CustomTable
@@ -157,7 +166,6 @@ class Census extends Component {
         dataSource={logData}
         onChange={this.changePage}
         loading={loading}
-        // title ={this.tableTitle}
         rowKey={record => record.keyId}
         pagination={{
           current: currentPage,
@@ -169,38 +177,6 @@ class Census extends Component {
   }
 
   render() {
-    // const { logData, total, currentPage, loading, } = this.state;
-    // const columnsMsg = [
-    //   {
-    //     title: '序号',
-    //     render: (text, record, index) => {
-    //       return ((currentPage - 1) * 10 + index + 1)
-    //     },
-    //     width: 10,
-    //   },
-    //   {
-    //     title: '姓名',
-    //     dataIndex: 'name',
-    //     width: 60,
-    //   },
-    //   {
-    //     title: '单位',
-    //     dataIndex: 'unit',
-    //     width: 120,
-    //   },
-    //   {
-    //     title: '部门',
-    //     dataIndex: 'departmentName',
-    //     width: 120,
-    //   },
-    //   {
-    //     title: '岗位',
-    //     dataIndex: 'positionName',
-    //     width: 60,
-    //   },
-    // ];
-    // const columns = columnsMsg.map(i => { return { ...i, align: 'center' } });
-
     return (
       <Fragment>
         <Row gutter={[16, 16]}>
@@ -208,14 +184,14 @@ class Census extends Component {
             <DreeData getUserDataFun={this.getUserData} />
           </Col>
           <Col span={18}>
-            <Tabs defaultActiveKey="286641" onChange={this.changeTabs}>
-              <TabPane tab="被授权人职称变化" key="286641">
+            <Tabs defaultActiveKey="1" onChange={this.changeTabs}>
+              <TabPane tab="被授权人职称变化" key="1">
                 {this.tableTabs()}
               </TabPane>
-              <TabPane tab="失效授权岗位" key="321366">
+              <TabPane tab="失效授权人员岗位" key="2">
                 {this.tableTabs()}
               </TabPane>
-              <TabPane tab="授权人统计" key="318571">
+              <TabPane tab="授权人统计" key="3">
                 {this.tableTabs()}
               </TabPane>
             </Tabs>

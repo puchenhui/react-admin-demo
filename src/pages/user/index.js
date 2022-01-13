@@ -122,12 +122,12 @@ class MainIndex extends Component {
         render:(text,record,index)=>{
           return((currentPage -1)*10 + index+1)
         },
-        width:10,
+        width:30,
       },
       {
         title: '姓名',
         dataIndex: 'name',
-        width:60,
+        width:30,
       },
       {
         title: '单位',
@@ -137,12 +137,12 @@ class MainIndex extends Component {
       {
         title: '部门',
         dataIndex: 'departmentName',
-        width:120,
+        width:30,
       },
       {
         title: '岗位',
         dataIndex: 'positionName',
-        width:60,
+        width:30,
       },
     ];
     const columns = columnsMsg.map(i => {return {...i,align:'center'}});
