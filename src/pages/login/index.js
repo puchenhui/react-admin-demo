@@ -11,8 +11,7 @@ class Login extends React.Component{
 
     componentDidMount() {
         // 单点登录
-        const msg = qs.parse(this.props.location.search, { ignoreQueryPrefix: true });
-
+        const msg = qs.parse(window.location.search, { ignoreQueryPrefix: true });
         if (msg && msg.userId) {
           get('/getUser', {
             // userId: 330440,
@@ -39,7 +38,7 @@ class Login extends React.Component{
               }
             })
         } else {
-          window.location.href="https://g1openid.crcc.cn/oauth/authorize?response_type=code&client_id=fsopn&scope=openid+profile&redirect_uri=http://47.93.126.193:8088/com/fsopn/ipaas/sso/callback"
+          // window.location.href="https://g1openid.crcc.cn/oauth/authorize?response_type=code&client_id=fsopn&scope=openid+profile&redirect_uri=http://47.93.126.193:8088/com/fsopn/ipaas/sso/callback"
         }
         // 判断登录状态 如果登陆直接进首页
         const userLoginMsg = window.localStorage.getItem('userLoginMsg');
