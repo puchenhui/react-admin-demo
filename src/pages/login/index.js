@@ -19,7 +19,7 @@ class Login extends React.Component{
             userId: msg.userId,
           })
             .then((res) => {
-              if (res && res.length > 1) {
+              if (res && res.length > 0) {
                 /**
                  * 判断返回的list中 mainPosition（主） 是否为true
                  * 如果是true 获取为true中的数据
