@@ -73,6 +73,7 @@ class MainIndex extends React.Component {
               theme="dark" 
               mode="inline"
               defaultSelectedKeys={['/index']}
+              defaultOpenKeys	={['/admin']}
               selectedKeys={[this.props.location.pathname]}
             >
               {
