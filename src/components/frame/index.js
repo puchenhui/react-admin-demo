@@ -13,15 +13,18 @@ class MainIndex extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      loginStatusName:null
+      loginStatusName:null,
+      departmentName:null,
     };
   }
 
   componentDidMount(){
     const userLoginMsg = JSON.parse(window.localStorage.getItem('userLoginMsg'))
     const loginStatusName = userLoginMsg ? userLoginMsg.name : {}
+    const departmentName = userLoginMsg ? userLoginMsg.departmentName : {}
     this.setState({
-      loginStatusName: loginStatusName,
+      loginStatusName,
+      departmentName,
     })
   }
 
@@ -56,7 +59,7 @@ class MainIndex extends React.Component {
     }
   }
   render() {
-    const { loginStatusName } = this.state;
+    const { loginStatusName,departmentName } = this.state;
     return (
       <div className='ztj-frame'>
         <Layout>
@@ -88,7 +91,7 @@ class MainIndex extends React.Component {
           <Layout style={{ marginLeft: 200 }}>
             <Header className='frame-header'>
               <img src={img01} alt='头像'/>
-              {loginStatusName}
+              {`${departmentName}\xa0\xa0\xa0\xa0${loginStatusName}`}
             </Header>
             <Content style={{ margin: '24px 16px 0', overflow: 'initial', }}>
               <div style={{ padding: 24, background: '#fff', textAlign: 'center', }}>
