@@ -57,7 +57,7 @@ class AddAuth extends Component {
       get('searchCanAuthorize', {
         page: 1,
         size: 10,
-        operatorId: userLoginMsg.id,
+        userId: userLoginMsg.id,
         name: userName,
       })
         .then((res) => {
@@ -112,8 +112,8 @@ class AddAuth extends Component {
     get('getCanAuthorizeObj', {
       page: 1,
       size: 10,
-      operatorId: userLoginMsg.id,
-      orgId: currentTree.key,
+      userId: userLoginMsg.id,
+      departmentId: currentTree.key,
       type,
       ...params
     })
@@ -184,6 +184,7 @@ class AddAuth extends Component {
 
   // 提交保存
   submitSaveAuth = (record, data) => {
+    const { currentTree } = this.props;
     const userLoginMsg = JSON.parse(window.localStorage.getItem('userLoginMsg')) || {}
     if (record.id === data.id) {
       let subData = []
@@ -194,6 +195,8 @@ class AddAuth extends Component {
       const { addAuthType } = this.state;
       const dataMsg = {
         operatorId: userLoginMsg.id,
+        departmentId: currentTree.key,
+        userId: userLoginMsg.id,
         operatorName: userLoginMsg.name,
         authorizeObjectId: id,
         authorizeObjectType: addAuthType,

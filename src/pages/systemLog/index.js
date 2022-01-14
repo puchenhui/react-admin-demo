@@ -49,7 +49,6 @@ class MainIndex extends Component {
       page:1,
       size:10,
       userId:userLoginMsg.id,
-      // power: userLoginMsg.power,
       departmentId,
       positionId:userLoginMsg.positionId,
       ...params

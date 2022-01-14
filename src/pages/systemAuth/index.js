@@ -47,8 +47,10 @@ class MainIndex extends Component {
     get('getAuthorizeList', {
       page: 1,
       size: 10,
-      operatorId: userLoginMsg.id,
-      orgId: currentTree.key,
+      // operatorId: userLoginMsg.id,
+      userId: userLoginMsg.id,
+      departmentId: currentTree.key,
+      // orgId: currentTree.key,
       type,
       ...params
     })
@@ -198,11 +200,14 @@ class MainIndex extends Component {
       const {
          id,authorizeObjectPositionId, authorizeObjectName, authorizeObjectDepartmentId, authorizeObjectPath, authorizeObjectType,authorizeObjectId
       } = record;
+      const { currentTree } = this.state;
       const userLoginMsg = JSON.parse(window.localStorage.getItem('userLoginMsg')) || {}
       post('authorize', {
         authorizes: [{
           id:id,
           operatorId: userLoginMsg.id,
+          departmentId: currentTree.key,
+          userId: userLoginMsg.id,
           operatorName: userLoginMsg.name,
           authorizeObjectId,
           authorizeObjectType,
