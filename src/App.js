@@ -86,11 +86,11 @@ render() {
               <Route path="/admin/log" component={SystemLog}/>
               <Route path="/admin/census" exact component={Census}/>
               <Route path="/admin/auth" component={SystemAuth} /> 
-
             </Switch>
           </Route>
         </Switch>
-      
+
+
       {/* <Switch>
         {this.generateRouter(adminRouters)}
       </Switch> */}
