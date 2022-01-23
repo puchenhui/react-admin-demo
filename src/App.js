@@ -90,8 +90,7 @@ render() {
             </Switch>
           </Route>
         </Switch>
-        
-
+      
       {/* <Switch>
         {this.generateRouter(adminRouters)}
       </Switch> */}
