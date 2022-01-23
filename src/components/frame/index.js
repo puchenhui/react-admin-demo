@@ -3,7 +3,7 @@ import { Layout, Menu, Breadcrumb, Icon } from 'antd';
 import { adminRouters } from '../../routes';
 import { Link, withRouter } from 'react-router-dom'
 import img01 from '../public/img01.png'
-import './index.css'
+import './index.less'
 
 const { SubMenu, Item } = Menu;
 const { Header, Content, Sider, Footer } = Layout;
@@ -13,12 +13,13 @@ class MainIndex extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      loginStatusName:null,
-      departmentName:null,
+      loginStatusName: null,
+      departmentName: null,
+      collapsed: false,
     };
   }
 
-  componentDidMount(){
+  componentDidMount() {
     const userLoginMsg = JSON.parse(window.localStorage.getItem('userLoginMsg'))
     const loginStatusName = userLoginMsg ? userLoginMsg.name : {}
     const departmentName = userLoginMsg ? userLoginMsg.departmentName : {}
@@ -28,9 +29,14 @@ class MainIndex extends React.Component {
     })
   }
 
- 
+  toggle = () => {
+    this.setState({
+      collapsed: !this.state.collapsed,
+    });
+  };
+
   // 渲染无父级的菜单
-  renderMenuItem = ({ path, icon, title, isShow=true }) => {
+  renderMenuItem = ({ path, icon, title, isShow = true }) => {
     if (isShow === true) {
       return (
         <Item key={path}>
@@ -43,15 +49,16 @@ class MainIndex extends React.Component {
     }
   }
   // 渲染带父级的菜单
-  renderSubMenu = ({ path, icon, title, childrens, isShow=true }) => {;
+  renderSubMenu = ({ path, icon, title, childrens, isShow = true }) => {
+    ;
     if (isShow === true) {
       return (
         <SubMenu key={path} title={<span>{icon && <Icon type={icon} />}<span>{title}</span></span>}>
           {
             childrens && childrens.map(item => {
-              return item.childrens && item.childrens.length > 0 
-              ? this.renderSubMenu(item) 
-              : this.renderMenuItem(item)
+              return item.childrens && item.childrens.length > 0
+                ? this.renderSubMenu(item)
+                : this.renderMenuItem(item)
             })
           }
         </SubMenu>
@@ -59,7 +66,7 @@ class MainIndex extends React.Component {
     }
   }
   render() {
-    const { loginStatusName,departmentName } = this.state;
+    const { loginStatusName, departmentName, collapsed } = this.state;
     return (
       <div className='ztj-frame'>
         <Layout>
@@ -67,41 +74,54 @@ class MainIndex extends React.Component {
             style={{
               overflow: 'auto',
               height: '100vh',
-              position: 'fixed',
-              left: 0,
+              // position: 'fixed',
+              // left: 0,
             }}
+            trigger={null}
+            collapsible
+            collapsed={collapsed}
           >
             <div className="logo" />
             <Menu
-              theme="dark" 
+              theme="dark"
               mode="inline"
               defaultSelectedKeys={['/index']}
-              defaultOpenKeys	={['/admin']}
+              defaultOpenKeys={['/admin']}
               selectedKeys={[this.props.location.pathname]}
             >
               {
                 adminRouters && adminRouters.map(item => {
-                  return item.childrens && item.childrens.length > 0 
-                  ? this.renderSubMenu(item) 
-                  : this.renderMenuItem(item)
+                  return item.childrens && item.childrens.length > 0
+                    ? this.renderSubMenu(item)
+                    : this.renderMenuItem(item)
                 })
               }
             </Menu>
           </Sider>
-          <Layout style={{ marginLeft: 200 }}>
+          <Layout>
             <Header className='frame-header'>
-              <img src={img01} alt='头像'/>
-              {`${departmentName}\xa0\xa0\xa0\xa0${loginStatusName}`}
+              <div className='header-box'>
+                <Icon
+                  className="trigger"
+                  type={collapsed ? 'menu-unfold' : 'menu-fold'}
+                  onClick={this.toggle}
+                />
+                <div>
+                  <img src={img01} alt='头像' />
+                  {`${departmentName}\xa0\xa0\xa0\xa0${loginStatusName}`}
+                </div>
+             </div>
             </Header>
-            <Content style={{ margin: '24px 16px 0', overflow: 'initial', }}>
-              <div style={{ padding: 24, background: '#fff', textAlign: 'center', }}>
+          <Content style={{ margin: '24px 16px 0', overflow: 'initial', }}>
+            <div style={{ padding: 24, background: '#fff', textAlign: 'center', }}>
 
-                {this.props.children}
-              </div>
-            </Content>
-          </Layout>
+              {this.props.children}
+            </div>
+          </Content>
         </Layout>
-      </div>
+
+      </Layout>
+      </div >
     );
   }
 }
