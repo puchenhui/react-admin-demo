@@ -6,7 +6,6 @@ import SystemLog from "@/pages/systemLog";
 import User from "@/pages/user";
 import Census from "@/pages/census";
 import SystemAuth from "@/pages/systemAuth";
-import Details from "@/pages/details";
 
 import './App.less'
 
@@ -87,7 +86,6 @@ render() {
               <Route path="/admin/log" component={SystemLog}/>
               <Route path="/admin/census" exact component={Census}/>
               <Route path="/admin/auth" component={SystemAuth} /> 
-              <Route path="/admin/census/details"  component={Details} /> 
 
             </Switch>
           </Route>
