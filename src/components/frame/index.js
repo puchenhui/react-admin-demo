@@ -73,20 +73,18 @@ class MainIndex extends React.Component {
 
   // 展示路由
   showSubRoute = (route) => {
-    const aaa = route.map(item => {
+    const routeArr = route.map(item => {
       if (item.childrens && item.childrens.length > 0) {
         return this.showSubRoute(item.childrens)
       }
       if (item.component && item.path) {
         return item
       }
-        // ? this.showSubRoute(item.childrens)
-        // : this.showRoute(item)
     })
     return(
       <Switch>
         {
-          aaa.map( i => {
+          routeArr.map( i => {
             return(
               <Route key={i.path} path={i.path} component={i.component} />
             )
@@ -170,23 +168,7 @@ class MainIndex extends React.Component {
               </Header>
               <Content style={{ margin: '24px 16px 0', overflow: 'initial', }}>
                 <div style={{ padding: 24, background: '#fff', textAlign: 'center', }}>
-                  {/* {this.props.children} */}
-                  {/* <Switch> */}
                   {this.showSubRoute(adminRouters)}
-
-                  {/* {
-                adminRouters && adminRouters.map(item => {
-                  return item.childrens && item.childrens.length > 0
-                    ? this.showSubRoute(item)
-                    : this.showRoute(item)
-                })
-              } */}
-
-                  {/* <Route path="/index" component={User} />
-                  <Route path="/admin/log" component={SystemLog} />
-                  <Route path="/admin/census" component={Census} />
-                  <Route path="/admin/auth" component={SystemAuth} /> */}
-                  {/* </Switch> */}
                 </div>
               </Content>
             </Layout>
