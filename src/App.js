@@ -80,15 +80,21 @@ render() {
   return (
     <Frame>
       <Switch>
-          <Route path="/index" component={User}/>
-          <Route path="/admin" >
-            <Switch>
+          {/* <Route path="/index" component={User}/> */}
+          {/* <Route path="/admin" > */}
+            {/* <Switch>
               <Route path="/admin/log" component={SystemLog}/>
               <Route path="/admin/census" exact component={Census}/>
               <Route path="/admin/auth" component={SystemAuth} /> 
-            </Switch>
-          </Route>
+            </Switch> */}
+          {/* </Route> */}
+          {/* <Route path="/admin/log" component={SystemLog}/>
+              <Route path="/admin/census" exact component={Census}/>
+              <Route path="/admin/auth" component={SystemAuth} />  */}
         </Switch>
+
+
+
 
       {/* <Switch>
         {this.generateRouter(adminRouters)}

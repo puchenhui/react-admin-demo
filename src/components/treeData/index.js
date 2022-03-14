@@ -1,10 +1,9 @@
 import React, { Component } from 'react';
-import { Form, Input, message, Tree } from 'antd';
+import { Input, Tree } from 'antd';
 import { get } from '../../utils/request';
 const TreeNode = Tree.TreeNode;
 const { Search } = Input;
-class TreeData extends Component {
-  formRef = React.createRef();
+class TreeDataFun extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -107,7 +106,7 @@ class TreeData extends Component {
       return true;
     }
     return (
-      new RegExp(filterText, "i").test(data.title) //这个是title过滤 ，也可以根据需求改动
+      new RegExp(filterText, "i").test(data.title) //title过滤，也可以根据需求改动
     );
   }
   //展开 key函数
@@ -118,9 +117,8 @@ class TreeData extends Component {
     let arr = [];
     const expandedKeysFn = (e) => {
       e.map((item, index) => {
-        arr.push(item.key); //如果数据量小放这里可以
+        arr.push(item.key);
         if (item.children && item.children.length > 0) {
-          //arr.push(item.key); //如果数据量大放这里可以
           expandedKeysFn(item.children);
 
         }
@@ -229,4 +227,4 @@ class TreeData extends Component {
   }
 
 }
-export default TreeData
+export default TreeDataFun
