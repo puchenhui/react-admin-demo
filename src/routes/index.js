@@ -2,6 +2,7 @@ import SystemLog from "@/pages/systemLog";
 import User from "@/pages/user";
 import Census from "@/pages/census";
 import SystemAuth from "@/pages/systemAuth";
+import TodoList from "@/pages/todo";
 
 
 export const adminRouters = [
@@ -12,6 +13,13 @@ export const adminRouters = [
       title: '组织及人员浏览',
       icon: 'user'
     }, 
+    {
+      path: '/todo',
+      component: TodoList,
+      isShow:true, //默认显示，如果不显示设为false 
+      title: '列表',
+      icon: 'user'
+    },
     {
       path: '/admin',
       title: '系统管理',

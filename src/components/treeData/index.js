@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Input, Tree } from 'antd';
 import { get } from '../../utils/request';
+import store from '@/store';
 const TreeNode = Tree.TreeNode;
 const { Search } = Input;
 class TreeDataFun extends Component {
@@ -17,6 +18,7 @@ class TreeDataFun extends Component {
     }
   }
   componentDidMount() {
+    console.log(store.getState().inputValue);
     this.getTreeData()
   }
 
@@ -209,7 +211,9 @@ class TreeDataFun extends Component {
       <div style={{'height':'100vh','overflow':'auto'}}>
         <Search
           style={{ marginBottom: 8 }}
-          placeholder="搜索组织名称"
+          
+          placeholder={store.getState().inputValue}
+          // placeholder="搜索组织名称"
           onChange={this.onSearchChange}
         />
         <Tree
